@@ -1,10 +1,19 @@
 import $, { cssNumber, event } from "jquery";
+const localForage = require("localforage");
 const fabric = require("fabric").fabric;
+
+
+localForage.config({
+  driver: localForage.LOCALSTORAGE,
+  name: "2Dshape",
+  version: 1.0,
+  storeName: "keyvaluepairs",
+});
+
 
 let isDrawing = false as boolean;
 let jsonSave: any;
 let imageBackground = "" as string;
-
 
 var canvas = new fabric.Canvas('canvas', {
   width: 800,
@@ -29,7 +38,11 @@ const handleImage = (event: any): void => {
     imageBackground = event.target.currentSrc
     resolve(imageBackground)
   })
-  myPromise.then((image) => {
+  myPromise.then(async (image) => {
+    const lf = await localForage.getItem(imageBackground)
+    if (lf) {
+      handleLoad()
+    }
     fabric.Image.fromURL(image, function (img: any) {
       img.scaleToWidth(canvas.width);
       img.scaleToHeight(canvas.height);
@@ -65,16 +78,18 @@ const handleDelete = () => {
 
 const handleSave = () => {
   jsonSave = canvas.toJSON();
-  console.log(JSON.stringify(jsonSave))
+  const imageSRC = jsonSave.backgroundImage.src;
+  localForage.setItem(imageSRC, JSON.stringify(jsonSave));
 }
 
-const handleRestore = () => {
-  canvas.loadFromJSON(jsonSave, canvas.renderAll.bind(canvas));
+const handleLoad = async () => {
+  const lf = await localForage.getItem(imageBackground)
+  canvas.loadFromJSON(JSON.parse(lf), canvas.renderAll.bind(canvas));
 }
 
 const handleText = (e: any) => {
   const target = e.target;
-  var iText = new fabric.IText('test', {
+  var iText = new fabric.IText('Text', {
     left: 100,
   });
   activeClass(target)
@@ -83,7 +98,7 @@ const handleText = (e: any) => {
 
 $(".image").on("click", handleImage);
 $(".save button").on("click", handleSave);
-$(".restore button").on("click", handleRestore);
+$(".restore button").on("click", handleLoad);
 $(".delete button").on("click", handleDelete);
 $(".utils-utils.drawer").on("click", handleUtils);
 $(".utils-utils.text").on("click", handleText);
