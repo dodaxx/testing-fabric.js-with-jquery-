@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2d shapes</title>
+    <link rel="stylesheet" href="./styles/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="section">
+        <div class="title">
+          <h1>Liste des images</h1>
+        </div>
+        <div class="wrapper list-image">
+          <div class="image">
+            <img
+              src="https://thumbs.dreamstime.com/z/silhouette-de-femme-13998582.jpg"
+              alt=""
+            />
+          </div>
+          <div class="image">
+            <img
+              src="https://thumbs.dreamstime.com/z/silhouette-de-femme-13998582.jpg"
+              alt=""
+            />
+          </div>
+          <div class="image">
+            <img
+              src="https://thumbs.dreamstime.com/z/silhouette-de-femme-13998582.jpg"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay"></div>
+    <section class="edit-image">
+      <div class="edit-image_wrapper">
+        <div class="utils">
+          <div class="wrapper-utils">
+            <div class="utils-content">
+              <div class="utils-utils">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon icon-tabler icon-tabler-scribble"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path
+                    d="M3 15c2 3 4 4 7 4s7 -3 7 -7s-3 -7 -6 -7s-5 1.5 -5 4s2 5 6 5s8.408 -2.453 10 -5"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="utils-save">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon icon-tabler icon-tabler-device-floppy"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path
+                d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"
+              ></path>
+              <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+              <path d="M14 4l0 4l-6 0l0 -4"></path>
+            </svg>
+          </div> -->
+        </div>
+        <div class="preview">
+          <div class="save">
+            <button>save</button>
+          </div>
+          <div class="preview-wrapper">
+            <canvas id="canvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script type="module" src="./app/index.js"></script>
+  </body>
+</html>
