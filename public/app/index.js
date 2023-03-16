@@ -24,7 +24,7 @@ const handleImage = (event) => {
         imageBackground = event.target.currentSrc;
         resolve(imageBackground);
     });
-    myPromise.then(image => {
+    myPromise.then((image) => {
         fabric.Image.fromURL(image, function (img) {
             img.scaleToWidth(canvas.width);
             img.scaleToHeight(canvas.height);
@@ -33,25 +33,48 @@ const handleImage = (event) => {
         });
     });
 };
+const activeClass = (target) => {
+    const lastActive = document.querySelector('.active');
+    if (lastActive) {
+        lastActive.classList.remove("active");
+    }
+    const containsActive = $(target).hasClass("active");
+    if (!containsActive) {
+        target.classList.add('active');
+    }
+    else {
+        target.classList.remove('active');
+    }
+};
 const handleUtils = (e) => {
-    const target = e.target.tagName;
-    $(`${target}`).toggleClass('active');
+    const target = e.target;
+    activeClass(target);
     handleDrawing();
 };
-const handleSave = () => {
-    jsonSave = canvas.toJSON();
-    console.log(jsonSave);
+const handleDelete = () => {
     canvas.getObjects().forEach((o) => {
         canvas.remove(o);
     });
 };
+const handleSave = () => {
+    jsonSave = canvas.toJSON();
+    console.log(JSON.stringify(jsonSave));
+};
 const handleRestore = () => {
     canvas.loadFromJSON(jsonSave, canvas.renderAll.bind(canvas));
 };
+const handleText = (e) => {
+    const target = e.target;
+    var iText = new fabric.IText('test', {
+        left: 100,
+    });
+    activeClass(target);
+    canvas.add(iText);
+};
 $(".image").on("click", handleImage);
-$(".utils-utils").on("click", handleUtils);
 $(".save button").on("click", handleSave);
 $(".restore button").on("click", handleRestore);
-var text = new fabric.Text('hello world', { left: 100, top: 100 });
-var itext = new fabric.IText('GeeksforGeeks', {});
-canvas.add(text, itext);
+$(".delete button").on("click", handleDelete);
+$(".utils-utils.drawer").on("click", handleUtils);
+$(".utils-utils.text").on("click", handleText);
+// var text = new fabric.Text('hello world', { left: 100, top: 100 });

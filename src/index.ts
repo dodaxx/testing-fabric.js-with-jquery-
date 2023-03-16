@@ -5,6 +5,7 @@ let isDrawing = false as boolean;
 let jsonSave: any;
 let imageBackground = "" as string;
 
+
 var canvas = new fabric.Canvas('canvas', {
   width: 800,
   height: 700,
@@ -28,7 +29,7 @@ const handleImage = (event: any): void => {
     imageBackground = event.target.currentSrc
     resolve(imageBackground)
   })
-  myPromise.then(image => {
+  myPromise.then((image) => {
     fabric.Image.fromURL(image, function (img: any) {
       img.scaleToWidth(canvas.width);
       img.scaleToHeight(canvas.height);
@@ -38,36 +39,60 @@ const handleImage = (event: any): void => {
   })
 }
 
+const activeClass = (target: HTMLElement) => {
+  const lastActive = document.querySelector('.active');
+  if (lastActive) {
+    lastActive.classList.remove("active");
+  } const containsActive = $(target).hasClass("active");
+  if (!containsActive) {
+    target.classList.add('active');
+  } else {
+    target.classList.remove('active');
+  }
+}
+
 const handleUtils = (e: any) => {
-  const target = e.target.tagName;
-  $(`${target}`).toggleClass('active')
+  const target = e.target;
+  activeClass(target)
   handleDrawing();
 }
 
-
-const handleSave = () => {
-  jsonSave = canvas.toJSON();
-  console.log(jsonSave)
+const handleDelete = () => {
   canvas.getObjects().forEach((o: any) => {
     canvas.remove(o)
   });
+}
+
+const handleSave = () => {
+  jsonSave = canvas.toJSON();
+  console.log(JSON.stringify(jsonSave))
 }
 
 const handleRestore = () => {
   canvas.loadFromJSON(jsonSave, canvas.renderAll.bind(canvas));
 }
 
+const handleText = (e: any) => {
+  const target = e.target;
+  var iText = new fabric.IText('test', {
+    left: 100,
+  });
+  activeClass(target)
+  canvas.add(iText);
+}
 
 $(".image").on("click", handleImage);
-$(".utils-utils").on("click", handleUtils);
 $(".save button").on("click", handleSave);
 $(".restore button").on("click", handleRestore);
+$(".delete button").on("click", handleDelete);
+$(".utils-utils.drawer").on("click", handleUtils);
+$(".utils-utils.text").on("click", handleText);
 
-var text = new fabric.Text('hello world', { left: 100, top: 100 });
-
-var itext = new fabric.IText('GeeksforGeeks', {
-
-});
+// var text = new fabric.Text('hello world', { left: 100, top: 100 });
 
 
-canvas.add(text, itext);
+
+
+
+
+
