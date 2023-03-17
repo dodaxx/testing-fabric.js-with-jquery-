@@ -17,6 +17,7 @@ let isDrawing = false as boolean;
 let jsonSave: any;
 let imageBackground = "" as string;
 let color = "#000000" as string | number | string[] | undefined;
+let width = 1 as any
 
 var canvas = new fabric.Canvas('canvas', {
   width: 800,
@@ -26,7 +27,6 @@ var canvas = new fabric.Canvas('canvas', {
 canvas.setZoom(canvas.getZoom() * 1);
 
 const handleDrawing = () => {
-  canvas.freeDrawingBrush.color = color;
   isDrawing = !isDrawing;
   if (isDrawing) {
     canvas.isDrawingMode = true;
@@ -56,11 +56,17 @@ const handleImage = (event: any): void => {
   })
 }
 
-const activeClass = (target: HTMLElement) => {
+const activeClass = (target: HTMLElement): void => {
+  let isActive = target.classList.contains('active')
+  if (isActive) {
+    target.classList.remove("active")
+    return
+  }
   const lastActive = document.querySelector('.active');
   if (lastActive) {
     lastActive.classList.remove("active");
-  } const containsActive = $(target).hasClass("active");
+  }
+  const containsActive = $(target).hasClass("active");
   if (!containsActive) {
     target.classList.add('active');
   } else {
@@ -74,8 +80,7 @@ const handleUtils = (e: any) => {
   handleDrawing();
 }
 
-const handleDelete = async () => {
-  // localForage.removeItem(imageBackground)
+const handleClear = async () => {
   canvas.getObjects().forEach((o: any) => {
     canvas.remove(o)
   });
@@ -99,6 +104,12 @@ const handleCancel = () => {
     canvas.remove(o)
   });
 }
+
+const handleDelete = () => {
+  console.log(imageBackground)
+  localForage.removeItem(imageBackground)
+}
+
 const handleText = (e: any) => {
   const target = e.target;
   var iText = new fabric.IText('Text', {
@@ -111,17 +122,25 @@ const handleText = (e: any) => {
 
 const handleChangeColor = (e: any) => {
   color = $(`.${e.target.className}`).val();
+  canvas.freeDrawingBrush.color = color;
+}
+
+const handleChangeWidth = (e: any) => {
+  width = $("#width-select :selected").val()
+  canvas.freeDrawingBrush.width = parseInt(width);
 }
 
 $(".image").on("click", handleImage);
 $(".save button").on("click", handleSave);
 $(".restore button").on("click", handleLoad);
 $(".cancel button").on("click", handleCancel);
+$(".clear button").on("click", handleClear);
 $(".delete button").on("click", handleDelete);
 $(".utils-utils.drawer").on("click", handleUtils);
 $(".utils-utils.text").on("click", handleText);
 
 $(".color-picker").on("change", handleChangeColor)
+$(".width-select").on("change", handleChangeWidth)
 
 
 

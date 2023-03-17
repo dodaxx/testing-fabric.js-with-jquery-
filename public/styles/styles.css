@@ -79,6 +79,7 @@ body {
   background-color: #333333;
   width: 5%;
   justify-content: center;
+  min-width: 50px;
 }
 
 .wrapper-utils {
@@ -159,6 +160,7 @@ body {
 
 .another-utils {
   width: 15%;
+  min-width: 200px;
   background-color: #fff;
 }
 
@@ -167,7 +169,8 @@ body {
   padding: 15px;
 }
 
-.another-utils_wrapper label {
+.another-utils_wrapper label,
+p {
   font-family: "Nunito", "sans-serif";
   color: rgb(73, 73, 73);
   font-weight: 700;
@@ -187,4 +190,8 @@ body {
   height: 1px;
   width: 80%;
   margin: 5px 0 10px;
+}
+
+.width-select {
+  margin-top: 10px;
 }
