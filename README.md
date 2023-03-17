@@ -3,7 +3,7 @@ App for testing fabric.js made with jquery ( back to the old coding haha )
 
 ## Installation 
 ```bash
-npm instal
+npm install
 ```
 
 ## Contributing
