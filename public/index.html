@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2d shapes</title>
     <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/coloris.min.css" />
   </head>
   <body>
     <div class="container">
@@ -80,33 +81,11 @@
               </div>
             </div>
           </div>
-          <!-- <div class="utils-save">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-device-floppy"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"
-              ></path>
-              <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-              <path d="M14 4l0 4l-6 0l0 -4"></path>
-            </svg>
-          </div> -->
         </div>
         <div class="preview">
           <div class="btn-preview">
-            <!-- TODO: create button cancel -->
             <div class="delete">
-              <button>Clear</button>
+              <button>clear all</button>
             </div>
             <div class="save">
               <button>save</button>
@@ -114,13 +93,34 @@
             <div class="restore">
               <button>restore</button>
             </div>
+            <div class="cancel">
+              <button>cancel</button>
+            </div>
           </div>
           <div class="preview-wrapper">
             <canvas id="canvas"></canvas>
           </div>
         </div>
+        <div class="another-utils">
+          <div class="another-utils_wrapper">
+            <label for="">Color</label>
+            <div class="hr"></div>
+            <input
+              type="text"
+              class="color-picker"
+              data-coloris
+              value="#000000"
+            />
+          </div>
+        </div>
       </div>
     </section>
+    <script src="./app/coloris.min.js"></script>
+    <script>
+      Coloris({
+        format: "mixed",
+      });
+    </script>
     <script type="module" src="./app/index.js"></script>
   </body>
 </html>
