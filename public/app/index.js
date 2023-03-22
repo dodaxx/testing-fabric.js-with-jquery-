@@ -20,13 +20,31 @@ let isDrawing = false;
 let jsonSave;
 let imageBackground = "";
 let color = "#000000";
+let width = 1;
 var canvas = new fabric.Canvas('canvas', {
     width: 800,
     height: 700,
 });
 canvas.setZoom(canvas.getZoom() * 1);
+const activeClass = (target) => {
+    let isActive = target.classList.contains('active');
+    if (isActive) {
+        target.classList.remove("active");
+        return;
+    }
+    const lastActive = document.querySelector('.active');
+    if (lastActive) {
+        lastActive.classList.remove("active");
+    }
+    const containsActive = $(target).hasClass("active");
+    if (!containsActive) {
+        target.classList.add('active');
+    }
+    else {
+        target.classList.remove('active');
+    }
+};
 const handleDrawing = () => {
-    canvas.freeDrawingBrush.color = color;
     isDrawing = !isDrawing;
     if (isDrawing) {
         canvas.isDrawingMode = true;
@@ -55,26 +73,12 @@ const handleImage = (event) => {
         });
     }));
 };
-const activeClass = (target) => {
-    const lastActive = document.querySelector('.active');
-    if (lastActive) {
-        lastActive.classList.remove("active");
-    }
-    const containsActive = $(target).hasClass("active");
-    if (!containsActive) {
-        target.classList.add('active');
-    }
-    else {
-        target.classList.remove('active');
-    }
-};
 const handleUtils = (e) => {
     const target = e.target;
     activeClass(target);
     handleDrawing();
 };
-const handleDelete = () => __awaiter(void 0, void 0, void 0, function* () {
-    // localForage.removeItem(imageBackground)
+const handleClear = () => __awaiter(void 0, void 0, void 0, function* () {
     canvas.getObjects().forEach((o) => {
         canvas.remove(o);
     });
@@ -82,6 +86,7 @@ const handleDelete = () => __awaiter(void 0, void 0, void 0, function* () {
 const handleSave = () => {
     jsonSave = canvas.toJSON();
     const imageSRC = jsonSave.backgroundImage.src;
+    console.log(JSON.stringify(jsonSave));
     localForage.setItem(imageSRC, JSON.stringify(jsonSave));
 };
 const handleLoad = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -95,7 +100,12 @@ const handleCancel = () => {
         canvas.remove(o);
     });
 };
+const handleDelete = () => {
+    localForage.removeItem(imageBackground);
+};
 const handleText = (e) => {
+    canvas.isDrawingMode = false;
+    isDrawing = false;
     const target = e.target;
     var iText = new fabric.IText('Text', {
         left: 100,
@@ -106,12 +116,19 @@ const handleText = (e) => {
 };
 const handleChangeColor = (e) => {
     color = $(`.${e.target.className}`).val();
+    canvas.freeDrawingBrush.color = color;
+};
+const handleChangeWidth = (e) => {
+    width = $("#width-select :selected").val();
+    canvas.freeDrawingBrush.width = parseInt(width);
 };
 $(".image").on("click", handleImage);
 $(".save button").on("click", handleSave);
 $(".restore button").on("click", handleLoad);
 $(".cancel button").on("click", handleCancel);
+$(".clear button").on("click", handleClear);
 $(".delete button").on("click", handleDelete);
 $(".utils-utils.drawer").on("click", handleUtils);
 $(".utils-utils.text").on("click", handleText);
 $(".color-picker").on("change", handleChangeColor);
+$(".width-select").on("change", handleChangeWidth);
