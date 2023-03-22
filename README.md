@@ -5,6 +5,13 @@ App for testing fabric.js made with jquery ( back to the old coding haha )
 ```bash
 npm install
 ```
+## Launch 
+```bash
+npx parcel public/index.html
+```
+```bash
+tsc -w 
+```
 
 ## Contributing
 
