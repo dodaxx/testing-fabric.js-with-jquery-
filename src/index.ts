@@ -3,8 +3,6 @@ const localForage = require("localforage");
 const fabric = require("fabric").fabric;
 
 
-
-
 localForage.config({
   driver: localForage.LOCALSTORAGE,
   name: "2Dshape",
@@ -25,6 +23,26 @@ var canvas = new fabric.Canvas('canvas', {
 });
 
 canvas.setZoom(canvas.getZoom() * 1);
+
+
+const activeClass = (target: HTMLElement): void => {
+  let isActive = target.classList.contains('active')
+  if (isActive) {
+    target.classList.remove("active")
+    return
+  }
+  const lastActive = document.querySelector('.active');
+  if (lastActive) {
+    lastActive.classList.remove("active");
+  }
+  const containsActive = $(target).hasClass("active");
+  if (!containsActive) {
+    target.classList.add('active');
+  } else {
+    target.classList.remove('active');
+  }
+}
+
 
 const handleDrawing = () => {
   isDrawing = !isDrawing;
@@ -56,23 +74,6 @@ const handleImage = (event: any): void => {
   })
 }
 
-const activeClass = (target: HTMLElement): void => {
-  let isActive = target.classList.contains('active')
-  if (isActive) {
-    target.classList.remove("active")
-    return
-  }
-  const lastActive = document.querySelector('.active');
-  if (lastActive) {
-    lastActive.classList.remove("active");
-  }
-  const containsActive = $(target).hasClass("active");
-  if (!containsActive) {
-    target.classList.add('active');
-  } else {
-    target.classList.remove('active');
-  }
-}
 
 const handleUtils = (e: any) => {
   const target = e.target;
@@ -89,6 +90,7 @@ const handleClear = async () => {
 const handleSave = () => {
   jsonSave = canvas.toJSON();
   const imageSRC = jsonSave.backgroundImage.src;
+  console.log(JSON.stringify(jsonSave))
   localForage.setItem(imageSRC, JSON.stringify(jsonSave));
 }
 
@@ -106,11 +108,12 @@ const handleCancel = () => {
 }
 
 const handleDelete = () => {
-  console.log(imageBackground)
   localForage.removeItem(imageBackground)
 }
 
 const handleText = (e: any) => {
+  canvas.isDrawingMode = false;
+  isDrawing = false
   const target = e.target;
   var iText = new fabric.IText('Text', {
     left: 100,
@@ -124,6 +127,7 @@ const handleChangeColor = (e: any) => {
   color = $(`.${e.target.className}`).val();
   canvas.freeDrawingBrush.color = color;
 }
+
 
 const handleChangeWidth = (e: any) => {
   width = $("#width-select :selected").val()

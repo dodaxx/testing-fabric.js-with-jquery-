@@ -26,6 +26,24 @@ var canvas = new fabric.Canvas('canvas', {
     height: 700,
 });
 canvas.setZoom(canvas.getZoom() * 1);
+const activeClass = (target) => {
+    let isActive = target.classList.contains('active');
+    if (isActive) {
+        target.classList.remove("active");
+        return;
+    }
+    const lastActive = document.querySelector('.active');
+    if (lastActive) {
+        lastActive.classList.remove("active");
+    }
+    const containsActive = $(target).hasClass("active");
+    if (!containsActive) {
+        target.classList.add('active');
+    }
+    else {
+        target.classList.remove('active');
+    }
+};
 const handleDrawing = () => {
     isDrawing = !isDrawing;
     if (isDrawing) {
@@ -55,24 +73,6 @@ const handleImage = (event) => {
         });
     }));
 };
-const activeClass = (target) => {
-    let isActive = target.classList.contains('active');
-    if (isActive) {
-        target.classList.remove("active");
-        return;
-    }
-    const lastActive = document.querySelector('.active');
-    if (lastActive) {
-        lastActive.classList.remove("active");
-    }
-    const containsActive = $(target).hasClass("active");
-    if (!containsActive) {
-        target.classList.add('active');
-    }
-    else {
-        target.classList.remove('active');
-    }
-};
 const handleUtils = (e) => {
     const target = e.target;
     activeClass(target);
@@ -86,6 +86,7 @@ const handleClear = () => __awaiter(void 0, void 0, void 0, function* () {
 const handleSave = () => {
     jsonSave = canvas.toJSON();
     const imageSRC = jsonSave.backgroundImage.src;
+    console.log(JSON.stringify(jsonSave));
     localForage.setItem(imageSRC, JSON.stringify(jsonSave));
 };
 const handleLoad = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -100,10 +101,11 @@ const handleCancel = () => {
     });
 };
 const handleDelete = () => {
-    console.log(imageBackground);
     localForage.removeItem(imageBackground);
 };
 const handleText = (e) => {
+    canvas.isDrawingMode = false;
+    isDrawing = false;
     const target = e.target;
     var iText = new fabric.IText('Text', {
         left: 100,

@@ -30,6 +30,7 @@ body {
 .title h1 {
   font-family: "Nunito", sans-serif;
   font-weight: bold;
+  margin-bottom: 10px;
   color: #555555;
 }
 .section .image {
